@@ -1,18 +1,13 @@
 package com.userApp.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.userApp.entity.User;
-import com.userApp.repository.UserRepository;
 import com.userApp.service.UserService;
 
 @Controller
@@ -20,6 +15,7 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
 	
 	//https//:localhost:8080/signup
 	@GetMapping("/signup")
@@ -31,18 +27,33 @@ public class UserController {
     @PostMapping("/signup")
     public String signup(@RequestParam("username") String username,
             @RequestParam("password") String password,
-            @RequestParam("email") String email) {
+            @RequestParam("email") String email, @RequestParam("userType") String userType,Model model) {
+    	
+    	boolean usernameExists = userService.existsByUsername(username);
+        boolean emailExists = userService.existsByEmail(email);
+
+        if (usernameExists) {
+            model.addAttribute("errorMessage", "Username already exists.");
+            return "signup"; // Return the signup page again with the error message
+        }
+
+        if (emailExists) {
+            model.addAttribute("errorMessage", "Email already exists.");
+            return "signup"; // Return the signup page again with the error message
+        }
+
     	User user = new User();
         user.setUsername(username);
         user.setPassword(password);
         user.setEmail(email);
+        user.setUserType(userType);
       
         userService.signup(user);
         return "redirect:/signin";
     }
     
   //https//:localhost:8080/signin
-    @GetMapping("/signin")
+    @GetMapping("/signin")	
     public String showSigninPage() {
         return "signin"; 
     }
@@ -51,17 +62,14 @@ public class UserController {
     public String signin(@RequestParam("username") String username,
                          @RequestParam("password") String password,Model model) {
       
-    	if (!username.isEmpty() && !password.isEmpty()) {
-            return "redirect:/dashboard"; 
-        } else {
-           
-            model.addAttribute("error", "Invalid username or password");
-           return "signin";
-       
-      }
-    	
+        if (!username.isEmpty() && !password.isEmpty()) {
+          return "redirect:/dashboard"; 
+        } else {  
+          model.addAttribute("error", "Invalid username or password");
+         return "signin";
+     }
     }
-    
+    	
     //https//:localhost:8080/dashboard
     @GetMapping("/dashboard")
     public String showDashboard() {

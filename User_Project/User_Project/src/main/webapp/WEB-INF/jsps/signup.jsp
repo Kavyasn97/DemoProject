@@ -34,7 +34,8 @@
         
         input[type="text"],
         input[type="password"],
-        input[type="email"] {
+        input[type="email"],
+        input[type="UserType"] {
             width: 90%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -62,6 +63,14 @@
             margin-top: 10px;
             text-align: center;
         }
+        a:hover {
+            color: #0056b3;
+        }
+        
+        a {
+            text-align: center;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -76,10 +85,21 @@
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
         <br>
+        UserType:
+           <select name="userType">
+			  <option value="ADMIN">ADMIN</option>
+			  <option value="USER"> USER</option>
+			  <option value="MANAGER">MANAGER</option>
+		   </select>
+	    <br>
+	    <br>
         <input type="submit" value="Sign Up">
     </form>
     <div class="error-message">
-        ${error}
+        ${errorMessage}
+    </div>
+    <div class="links-container"> <!-- Container to center the links -->
+        <a href="/signin">Sign In</a>
     </div>
 </body>
 </html>

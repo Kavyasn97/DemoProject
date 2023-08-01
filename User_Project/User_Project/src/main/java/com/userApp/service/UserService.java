@@ -1,5 +1,6 @@
 package com.userApp.service;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.userApp.entity.User;
@@ -11,12 +12,20 @@ public class UserService {
 	
     @Autowired
     private UserRepository userRepository;
+ 
 
     public User signup(User user) {
-        // Perform necessary validation and hashing of the password before saving.
-        return userRepository.save(user);
+          return userRepository.save(user);
     }
 
+    public boolean existsByUsername(String username) {
+        return userRepository.findByUsername(username) != null;
+    }
+
+    public boolean existsByEmail(String email) {
+        return userRepository.findByEmail(email) != null;
+    }
+    
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }

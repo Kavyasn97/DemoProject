@@ -100,13 +100,8 @@
         <input type="submit" value="Sign In">
       </div>
     </form>
-     ${error} 
-    <%-- Display error messages here --%>
-    <div class="error-message">
-      <% String errorMessage = (String) request.getAttribute("errorMessage");
-         if (errorMessage != null) { %>
-           <p><strong>Error:</strong> <%= errorMessage %></p>
-      <% } %>
+   <div class="error-message">
+        ${error}
     </div>
     <div class="links-container"> <!-- Container to center the links -->
         <a href="/signup">Sign Up</a>

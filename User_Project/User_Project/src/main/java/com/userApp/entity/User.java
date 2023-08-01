@@ -1,48 +1,50 @@
 package com.userApp.entity;
 
-
 import java.util.Set;
-
-
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.CascadeType;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
 
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
-    private Long id; 
+    private Long user_id; 
     
     private String username;  
     private String password;
     private String email;
-    
-  @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-    
-    @JoinTable(name="user_role",joinColumns=@JoinColumn(name="user_id"),inverseJoinColumns=@JoinColumn(name="role_id"))
-    private Set<Role> roles;
-  
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    private Set<Role> roles;
+    private String userType;
     
     
-	public Long getId() {
-		return id;
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	private Set<Role> roles;
+
+	   @JoinTable(name = "user_roles",
+				 joinColumns = @JoinColumn(name = "user_id", referencedColumnName
+				= "user_id"),
+				 inverseJoinColumns = @JoinColumn(name = "role_id",
+				referencedColumnName = "role_id"))
+
+	 
+	public Long getUser_id() {
+		return user_id;
 	}
-	public void setId(Long id) {
-		this.id = id;
+	
+	public void setUser_id(Long user_id) {
+		this.user_id = user_id;
 	}
+	
 	public String getUsername() {
 		return username;
 	}
+	
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -65,7 +67,13 @@ public class User {
 		this.roles = roles;
 	}
 	
-	
+	public String getUserType() {
+		return userType;
+	}
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
+
     
    
    
